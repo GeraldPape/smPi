@@ -38,12 +38,13 @@ cd /home/pi
 # REQUIRED PACKAGES: python-pip python-dev python-setuptools python-virtualenv git libyaml-dev build-essential
 
 # Configure environment and setup octoprint
-mkdir /home/pi/octoprint
-cd /home/pi/octoprint
-virtualenv --python=python3 venv
-source venv/bin/activate
+mkdir /home/pi/OctoPrint
+cd /home/pi/OctoPrint
+#virtualenv --python=python3 venv
+python3 -m venv .
+source bin/activate
 pip3 install pip --upgrade
-pip3 install --no-cache-dir octoprint
+pip3 install --no-cache-dir OctoPrint
 cd /home/pi
 
 # Modify User Permissions - Add user to dialout group to allow access to serial port
@@ -60,7 +61,7 @@ Wants = network-online.target
 [Service]
 User=pi
 Type = simple
-ExecStart=/home/pi/octoprint/venv/bin/octoprint serve
+ExecStart=/home/pi/OctoPrint/bin/octoprint serve
 Restart=always
  
 [Install]
@@ -216,7 +217,7 @@ echo exit 0 | sudo tee -a /etc/rc.local
 sudo systemctl stop octoprint.service
 
 #Create Default Profiles for Prusa - because Prusa
-cat << EOF >> "$HOME/.octoprint/printerProfiles/prusaMK3.profile"
+cat << EOF >> "$HOME/.octoprint/printerProfiles/SnapMakerA350.profile"
 axes:
   e:
     inverted: false
@@ -240,36 +241,22 @@ extruder:
   sharedNozzle: false
 heatedBed: true
 heatedChamber: false
-id: Prusa_Generic_MK3
-model: Prusa_Generic_MK3
-name: Prusa_Generic_MK3
+id: SnapMakerA350
+model: SnapMaker A350
+name: SnapMaker A350
 volume:
-  custom_box:
-    x_max: 250.0
-    x_min: 0.0
-    y_max: 210.0
-    y_min: -4.0
-    z_max: 200.0
-    z_min: 0.0
-  depth: 210.0
+  custom_box: false
+  depth: 350.0
   formFactor: rectangular
-  height: 200.0
+  height: 330.0
   origin: lowerleft
-  width: 250.0
+  width: 320.0
 EOF
-
-#Copy and Modify files - hacky way to save lines of code with the previous cat 2 more times
-cd /home/pi/.octoprint/printerProfiles/
-cp prusaMK3.profile prusaMK2.profile
-sed -i 's/MK3/MK2/g' prusaMK2.profile
-cp prusaMK3.profile prusaMMU.profile
-sed -i 's/MK3/MMU/g' prusaMMU.profile
-sed -i 's/count: 1/count: 5/g' prusaMMU.profile
 
 # Add settings to OctoPrint yaml for webcam
 cat << EOF >> "$HOME/.octoprint/config.yaml"
 printerProfiles:
-  default: Prusa_Generic_MK3
+  default: SnapMakerA350
 server:
   host: 127.0.0.1
   commands:
