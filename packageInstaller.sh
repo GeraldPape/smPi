@@ -13,5 +13,5 @@ ProgramList="$BasicFeatures $MJPGStreamer $OctoPrint $HAProxy"
 
 # Update then Install List
 sudo apt-get update -y
-sudo apt-get install -y $ProgramList --dry-run
+sudo apt-get install -y $ProgramList
 exit 0
