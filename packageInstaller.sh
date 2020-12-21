@@ -4,7 +4,7 @@
 
 # Programs and Dependencies here - for simple review and edits
 BasicFeatures="fail2ban git"
-MJPGStreamer="subversion libjpeg62-turbo-dev imagemagick ffmpeg libv4l-dev cmake"
+MJPGStreamer="cmake libjpeg8-dev gcc g++ imagemagick ffmpeg libv4l-dev cmake"
 OctoPrint="python3-pip python3-dev python3-setuptools python3-virtualenv git libyaml-dev build-essential"
 HAProxy="haproxy"
 
@@ -13,5 +13,5 @@ ProgramList="$BasicFeatures $MJPGStreamer $OctoPrint $HAProxy"
 
 # Update then Install List
 sudo apt-get update -y
-sudo apt-get install -y $ProgramList
+sudo apt-get install -y $ProgramList --dry-run
 exit 0

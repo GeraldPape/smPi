@@ -1,7 +1,7 @@
 ## Cloned repo
 I cloned this form https://github.com/itcarsales/prusaPi and changed the config to work with SnapMaker 2.0 printers. 
 
-## prusaPi
+## smPi
   OctoPrint full install script for Raspberry Pi 2/3/4 with camera and Snapmaker 2.0 3D printer
 
   This project is not meant to replace OctoPi, but to give Prusa Users a basic install with profiles already created, most settings already configured, and an easy out-of-box experience.  This project does not walk a user through flashing images, or setting up wifi.  It assumes the user can image an SD card, add the blank SSH file, add their own wpa_supplicant.conf, and connect to their fresh Raspbian install via SSH.  I will only touch on these steps, and place example files in the project.
@@ -34,7 +34,7 @@ I cloned this form https://github.com/itcarsales/prusaPi and changed the config 
  
 # Step 2) Initial Pi Setup
  - From the original repro I removed the newpi.sh. I do not want to set you some default password, etc. however:
- - Change your password ```linux passwd ```
+ - Change your password ```passwd ```
  - use raspi-config to change language, timezone, and set gpu_mem to 128 or higher.
  - do ```sudo apt-get update``` and ```sudo apt-get upgrade``` to get latest fixes
  - ```sudo reboot```
@@ -42,9 +42,9 @@ I cloned this form https://github.com/itcarsales/prusaPi and changed the config 
 # Step 3) Linux Preperation
   - run the following command to download the update script from this repo
     - ```bash <(curl -Ls https://github.com/itcarsales/prusaPi/raw/master/packageInstaller.sh)```
-    - This will update and install the required Raspbian Buster dependencies for this project (current as of 2-2020)
+    - This will update and install the required Raspbian dependencies for this project 
     - depending on your model Pi, this could take some time.
-    - WARNING - this will download about 800Mb of data updates.  An unstable connection may result in a bad time.
+    - WARNING - may take some time. 
 
 # Step 4) Software Installation
   - run the following command to download the setup script from this repo
