@@ -17,6 +17,7 @@ if [[ $installRPI != "Y" && $installRPI != "y" ]]; then
 	exit 1
 fi
 
+echo "This script will reboot when done. Ensure other work is saved."
 echo && read -p "Have you run the Package Installer already? (y/n)" -n 1 -r -s installRPI && echo
 if [[ $installRPI != "Y" && $installRPI != "y" ]]; then
 	echo "smPi install cancelled."
@@ -280,6 +281,45 @@ system:
      confirm: false
      name: Stop video stream
 EOF
+
+echo && read -p "Have you have the original Snapmaker enclosure? (y/n)" -n 1 -r -s enclosure && echo
+if [[ $enclosure == "Y" && $enclosure == "y" ]]; then
+	cat << EOF >> "$HOME/.octoprint/config.yaml"
+  controls:
+-   children:
+    -   command: M1010 S3 P%(inten)s
+        confirm: null
+        default: ''
+        input:
+        -   default: 0
+            name: Light
+            parameter: inten
+            slider:
+                max: '100'
+                min: '0'
+                step: '5'
+        name: Apply
+        regex: ''
+        template: ''
+    -   command: M1010 S4 P%(fan)s
+        confirm: null
+        default: ''
+        input:
+        -   default: 0
+            name: Fan 
+            parameter: fan
+            slider:
+                max: '100'
+                min: '0'
+                step: '5'
+        name: Apply
+        regex: ''
+        template: ''
+    layout: vertical
+    name: Enclosure
+EOF
+
+fi
 
 # Restart OctoPrint and wait for it to initialize - otherwise it reboots too quickly and causes safe mode on next run
 sudo systemctl start octoprint.service
