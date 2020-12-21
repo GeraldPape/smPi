@@ -1,8 +1,9 @@
 #!/bin/bash
-# Octoprint prusaPi (updated for buster)
+# Octoprint smPi (updated for buster)
 # by Nick Haley
 # Credit to https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspbian/2337 for the majority of the code base.
-# No affiliation with Prusa Research or OctoPrint - Project named for printer models supported
+# No affiliation with Prusa Research or OctoPrint - Project named for printer models supported if there is still some Prusa reference, I missed it when redoing for Snapmaker
+# No affiliation with Snapmaker or OctoPrint - Project named for printer models supported
 
 if ! [ $(id -u) -ne 0 ]; then
 	echo "Setup cannot be run with sudo"
@@ -12,13 +13,13 @@ fi
 
 echo && read -p "Would you like to install OctoPrint on your Raspberry Pi? (y/n)" -n 1 -r -s installRPI && echo
 if [[ $installRPI != "Y" && $installRPI != "y" ]]; then
-	echo "prusaPi install cancelled."
+	echo "smPi install cancelled."
 	exit 1
 fi
 
 echo && read -p "Have you run the Package Installer already? (y/n)" -n 1 -r -s installRPI && echo
 if [[ $installRPI != "Y" && $installRPI != "y" ]]; then
-	echo "prusaPi install cancelled."
+	echo "smPi install cancelled."
 	exit 1
 fi
 
@@ -39,10 +40,10 @@ cd /home/pi
 # Configure environment and setup octoprint
 mkdir /home/pi/octoprint
 cd /home/pi/octoprint
-virtualenv venv
+virtualenv --python=python3 venv
 source venv/bin/activate
-pip install pip --upgrade
-pip install --no-cache-dir octoprint
+pip3 install pip --upgrade
+pip3 install --no-cache-dir octoprint
 cd /home/pi
 
 # Modify User Permissions - Add user to dialout group to allow access to serial port
@@ -52,7 +53,7 @@ sudo usermod -a -G dialout pi
 # Create Service file for OctoPrint Auto Start
 cat << EOF > "$HOME/octoprint.service"
 [Unit]
-Description=Octoprint - prusaPi Version
+Description=Octoprint - smPi Version
 After=network.target
 Wants = network-online.target
  
@@ -155,7 +156,7 @@ MJPGSTREAMER_INPUT_RASPICAM="input_raspicam.so"
 
 # init configuration
 camera="auto"
-camera_usb_options="-r 640x480 -f 10"
+camera_usb_options="-r 1920x1080 -f 10"
 camera_raspi_options="-fps 10"
 
 if [ -e "/boot/octopi.txt" ]; then
@@ -279,7 +280,7 @@ webcam:
   ffmpeg: /usr/bin/ffmpeg
   snapshot: http://127.0.0.1:8080/?action=snapshot
   stream: /webcam/?action=stream
-  streamRatio: '4:3'
+  streamRatio: '16:9'
   watermark: false
 system:
   actions:

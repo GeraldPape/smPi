@@ -5,7 +5,7 @@
 # Programs and Dependencies here - for simple review and edits
 BasicFeatures="fail2ban git"
 MJPGStreamer="subversion libjpeg62-turbo-dev imagemagick ffmpeg libv4l-dev cmake"
-OctoPrint="python-pip python-dev python-setuptools python-virtualenv git libyaml-dev build-essential"
+OctoPrint="python3-pip python3-dev python3-setuptools python3-virtualenv git libyaml-dev build-essential"
 HAProxy="haproxy"
 
 # Add all Dependencies to List
